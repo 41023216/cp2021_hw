@@ -1069,8 +1069,7 @@ bfs(visited, graph, 'A')</pre>
 <p style="padding-left: 30px;"><a href="https://bmsleight.github.io/brython-blocks/">https://bmsleight.github.io/brython-blocks/</a></p>
 <p style="padding-left: 60px;"><a href="https://github.com/mdecourse/brython-blocks">https://github.com/mdecourse/brython-blocks</a></p>
 <h1>EXAM</h1>
-<h2>w11</h2>
-<p>這個頁面 demo 如何在同一頁面下納入多個線上 Ace 編輯器與執行按鈕. (本動態頁面檔案 <a href="/downloads/Examples.txt">Examples.txt</a>)</p>
+<h3>W11</h3>
 <p>1. 從 1 累加到 100 (以下列 button 呈現).</p>
 <p>2. 教科書 (<a href="https://link.springer.com/book/10.1007/978-981-10-3277-6">Programming with Python</a>) 2.6 Exercises, 共有三個題目, 請分別將程式製作為按鈕 (button).</p>
 <p>3. 請利用 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Canvas</a> 繪製 Fig. 3.7 的流程圖 (Flow Chart).</p>
@@ -1082,14 +1081,18 @@ bfs(visited, graph, 'A')</pre>
 <p><button id="add1to100">1 add to 100</button><button id="p261">p261</button></p>
 <p>將 iterable 與 iterator <a href="https://home.gamer.com.tw/creationDetail.php?sn=4337438">相關說明</a>, 利用 Brython 與 Ace Editor 整理在這個頁面.</p>
 <!-- 導入 brython 程式庫 -->
+<p>
 <script src="/static/brython.js"></script>
 <script src="/static/brython_stdlib.js"></script>
+</p>
 <!-- 啟動 Brython -->
+<p>
 <script>
 window.onload=function(){
 brython({debug:1, pythonpath:['/static/','./../downloads/py/']});
 }
 </script>
+</p>
 <p><!-- 導入 FileSaver 與 filereader --></p>
 <p>
 <script src="/static/ace/FileSaver.min.js" type="text/javascript"></script>
@@ -1166,43 +1169,25 @@ def clear_bd1(ev):
 # 利用 ace 中的 Editor 建立 Ace 物件, 其中的輸入變數分別對應到頁面中的編輯區物件
 Ace2 = ace.Editor(editor_id="kw_editor1", console_id="kw_console1", container_id="kw__container1", storage_id="kw_py_src1" )
 
-add1to100_url = "https://gist.githubusercontent.com/mdecourse/0229a8a017091476a79700b8a190f185/raw/c48e37714f055c3a0027cbfef59e442a6ef659b9/from_1_add_to_100_1.py"
+class button2:
+    def __init__(self, url):
+        self.url = url
 
-# 從 gist 取得程式碼
-add_src = open(add1to100_url).read()
-def add(ev):
-    Ace2.editor.setValue(add_src)
-    Ace2.editor.scrollToRow(0)
-    Ace2.editor.gotoLine(0)
-    Ace2.run()
-# id 為 "add1to100" 的按鈕點按時, 執行 add 方法
-doc["add1to100"].bind('click', add)
+    # 記得加入 event 輸入變數
+    def do(self,ev):
+        Ace2.editor.setValue(open(self.url).read())
+        Ace2.editor.scrollToRow(0)
+        Ace2.editor.gotoLine(0)
+        Ace2.run()
+
+add1to100_url = "https://gist.githubusercontent.com/mdecourse/0229a8a017091476a79700b8a190f185/raw/c48e37714f055c3a0027cbfef59e442a6ef659b9/from_1_add_to_100_1.py"
+add1to100 = button2(add1to100_url)
+doc["add1to100"].bind('click', add1to100.do)
 ################################# p261 start 
 p261_url = "https://gist.githubusercontent.com/mdecourse/2f56974a40da7a218dbaef376a5b4ca4/raw/980606effcd29635307d6474718cd4a7ef016747/p261.py"
-
-# 從 gist 取得程式碼
-p261_src = open(p261_url).read()
-def p261(ev):
-    Ace2.editor.setValue(p261_src)
-    Ace2.editor.scrollToRow(0)
-    Ace2.editor.gotoLine(0)
-    Ace2.run()
-# id 為 "p261" 的按鈕點按時, 執行 add 方法
-doc["p261"].bind('click', p261)
+p261 = button2(p261_url)
+doc["p261"].bind('click', p261.do)
 ################################## p261 end
-################################# p260 start 
-p260_url = "https://gist.githubusercontent.com/41023216/b371d7d0a159fad8ef2ed2622331e594/raw/6da036cc60a72c2a0502a437a51ce1116bb16e9c/1+10"
-
-# 從 gist 取得程式碼
-p260_src = open(p260_url).read()
-def p260(ev):
-    Ace2.editor.setValue(p260_src)
-    Ace2.editor.scrollToRow(0)
-    Ace2.editor.gotoLine(0)
-    Ace2.run()
-# id 為 "p260" 的按鈕點按時, 執行 add 方法
-doc["p260"].bind('click', p260)
-################################## p260 end
 </script>
 </p>
 <p><!-- add 1 to 100 結束--></p>
@@ -1256,7 +1241,7 @@ def check_input(ev):
 doc["check_input"].bind('click', check_input)
 ###################################### snake 開始
 # 將 Ace3 編輯器對應的 button 寫為 class
-class button:
+class button3:
     def __init__(self, url):
         self.url = url
 
@@ -1270,11 +1255,11 @@ class button:
 # 利用 button class 建立案例
 # for snake
 snake_url = "https://gist.githubusercontent.com/mdecourse/d55158478f4f8fcbfedd455f8be8c7b6/raw/706bb9583d97f2e4b8e9027e686489e28f43cad9/brython_snake.py"
-snake = button(snake_url)
+snake = button3(snake_url)
 doc["snake"].bind("click", snake.do)
 # for snake2
 snake2_url = "https://gist.githubusercontent.com/mdecourse/d55158478f4f8fcbfedd455f8be8c7b6/raw/706bb9583d97f2e4b8e9027e686489e28f43cad9/snake_pathfinding_ai_curses.py"
-snake2 = button(snake2_url)
+snake2 = button3(snake2_url)
 doc["snake2"].bind("click", snake2.do)
 ###################################### snake 結束
 # 執行程式, 顯示輸出結果與清除輸出結果及對應按鈕綁定 - 第二編輯區 Ace3 共用
